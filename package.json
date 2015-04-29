@@ -2,17 +2,22 @@
   "name": "command-node",
   "description": "Library to create command line interpreters for testing programs",
   "version": "0.1.0",
-  "homepage": "https://github.com/dmoranj/command-node",
+  "homepage": "https://github.com/telefonicaid/command-node",
+  "keywords": [
+    "command line",
+    "interpreter",
+    "readline"
+  ],
   "author": {
     "name": "Daniel Moran",
     "email": "dmj@tid.es"
   },
   "repository": {
     "type": "git",
-    "url": "git://github.com/dmoranj/command-node.git"
+    "url": "git://github.com/telefonicaid/command-node.git"
   },
   "bugs": {
-    "url": "https://github.com/dmoranj/command-node/issues"
+    "url": "https://github.com/telefonicaid/command-node/issues"
   },
   "main": "lib/command-node",
   "engines": {
@@ -21,11 +26,9 @@
   "scripts": {
     "test": "grunt test"
   },
-  "dependencies": {
-    "logops": "*"
-  },
+  "dependencies": {},
   "devDependencies": {
-    "should": "*",
+    "should": "6.0.1",
     "grunt-contrib-jshint": "~0.6.4",
     "grunt-contrib-watch": "~0.5.3",
     "grunt-gjslint": "~0.1.0",
@@ -44,6 +47,5 @@
     "grunt-mkdir": "~0.1.1",
     "grunt-contrib-clean": "~0.5.0",
     "grunt-githooks": "~0.3.1"
-  },
-  "keywords": []
+  }
 }
