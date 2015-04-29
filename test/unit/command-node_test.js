@@ -28,7 +28,7 @@ var commandNode = require('../../'),
     should = require('should'),
     commands = {
         'create': {
-            parameters: ['objectUri'],
+            parameters: ['objectUri', 'objectValue'],
             description: '\tCreate a new object. The object is specified using the /type/id OMA notation.',
             handler: function() {}
         }
@@ -60,7 +60,12 @@ describe('Command-line tool', function() {
     beforeEach(function() {
         commandNode.initialize(commands, 'Test>', process.stdin, process.stdout);
         commandNode.setWriter(writer);
+        commands.create.handler = function() {};
     });
+
+    afterEach(function() {
+        commandNode.destroy();
+    })
 
     describe('When the "help" command is executed', function() {
         it('should show all the available commands', function(done) {
@@ -68,8 +73,20 @@ describe('Command-line tool', function() {
 
             writer.reset();
             process.stdin.push('help\n');
-            writer.get().should.match(/.*create <objectUri>.*/);
+            writer.get().should.match(/.*create <objectUri> <objectValue>.*/);
             done();
+        });
+    });
+    describe('When a command is executed, its handler is called with the passed parameters', function() {
+        it('should show all the available commands', function(done) {
+            commands.create.handler = function(commands) {
+                commands.length.should.equal(2);
+                commands[0].should.equal('thisIsTheUri');
+                commands[1].should.equal('thisIsTheValue');
+                done();
+            }
+
+            process.stdin.push('create thisIsTheUri thisIsTheValue\n');
         });
     });
 });
