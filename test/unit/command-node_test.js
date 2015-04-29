@@ -24,7 +24,6 @@
 
 var commandNode = require('../../'),
     utils = require('util'),
-    stream = require('stream'),
     should = require('should'),
     commands = {
         'create': {
@@ -35,7 +34,7 @@ var commandNode = require('../../'),
     };
 
 function StringWriter() {
-    var content = "";
+    var content = '';
 
     return {
         log: function() {
@@ -51,7 +50,7 @@ function StringWriter() {
         reset: function() {
             content = '';
         }
-    }
+    };
 }
 
 describe('Command-line tool', function() {
@@ -65,12 +64,10 @@ describe('Command-line tool', function() {
 
     afterEach(function() {
         commandNode.destroy();
-    })
+    });
 
     describe('When the "help" command is executed', function() {
         it('should show all the available commands', function(done) {
-            var message;
-
             writer.reset();
             process.stdin.push('help\n');
             writer.get().should.match(/.*create <objectUri> <objectValue>.*/);
@@ -80,11 +77,12 @@ describe('Command-line tool', function() {
     describe('When a command is executed, its handler is called with the passed parameters', function() {
         it('should show all the available commands', function(done) {
             commands.create.handler = function(commands) {
+                should.exist(commands);
                 commands.length.should.equal(2);
                 commands[0].should.equal('thisIsTheUri');
                 commands[1].should.equal('thisIsTheValue');
                 done();
-            }
+            };
 
             process.stdin.push('create thisIsTheUri thisIsTheValue\n');
         });
