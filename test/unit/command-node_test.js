@@ -74,8 +74,8 @@ describe('Command-line tool', function() {
             done();
         });
     });
-    describe('When a command is executed, its handler is called with the passed parameters', function() {
-        it('should show all the available commands', function(done) {
+    describe('When a command is executed with the right parameters', function() {
+        it('should called its handler with the passed parameters', function(done) {
             commands.create.handler = function(commands) {
                 should.exist(commands);
                 commands.length.should.equal(2);
@@ -87,4 +87,13 @@ describe('Command-line tool', function() {
             process.stdin.push('create thisIsTheUri thisIsTheValue\n');
         });
     });
+    describe.only('When a command is executed with a wrong number of parameters', function() {
+        it('should show an error', function(done) {
+            writer.reset();
+            process.stdin.push('create thisIsTheUri\n');
+            writer.get().should.match(/.*Wrong number of parameters.*/);
+            done();
+        });
+    });
+
 });
