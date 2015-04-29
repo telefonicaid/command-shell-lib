@@ -87,7 +87,7 @@ describe('Command-line tool', function() {
             process.stdin.push('create thisIsTheUri thisIsTheValue\n');
         });
     });
-    describe.only('When a command is executed with a wrong number of parameters', function() {
+    describe('When a command is executed with a wrong number of parameters', function() {
         it('should show an error', function(done) {
             writer.reset();
             process.stdin.push('create thisIsTheUri\n');
