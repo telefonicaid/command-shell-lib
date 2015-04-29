@@ -1,8 +1,64 @@
-# command-node
+# Command Node
 
-Library to create command line interpreters for testing programs
+## Index
+* [Overview](#overview)
+* [Usage](#usage)
+* [Development documentation](#development)
 
-## Development documentation
+## <a name="overview"/> Overview
+The target o this application is to ease the creation of command line interpreters for testing utililities. It makes use of the functionalities of Node.js [Readline library](https://nodejs.org/api/readline.html), adding the following features:
+* Configuration layer that let you define your commands and their syntax in a declarative way.
+* Automatic parameter number check.
+* Free help command
+* Script input execution
+
+## <a name="usage"/> Usage
+
+### Library import and usage
+In order to use the library, you have to require it, as usual, and initialize it:
+```
+var clUtils = require('command-node');
+
+[...]
+
+clUtils.initialize(commands, 'App Tester> ');
+```
+The `initialize()` function receives two parameters:
+* The commands object: that defines all the commands available in your interpreter (its structure is described in the next section).
+* And the prompt string: that will be used en each line of the interpreter to mark the input line.
+
+### Definition of the Commands object
+The library usage is based on the definition of a `commands` object, that is passed in the initialization of the library. This object contains a description of each of the commands you want to be able to execute. E.g.:
+```
+    commands = {
+        'create': {
+            parameters: ['objectUri', 'objectValue'],
+            description: '\tCreate a new object. The object is specified using the /type/id OMA notation.',
+            handler: function() {}
+        }
+    };
+```
+This definition includes: 
+* **name**: for each command a new attribute is defined in the object. The attribute name will be the name of the command used to execute it in the interpreter.
+* **signature**: that is, the parameters the command will receive. In this current version, commands have to have a fixed number of parameters. This parameters will be checked upon command execution, and the command will fail if the number does not match the signature.
+* **description** of the command: that will be used to autogenerate the help message for each command.
+* **handler**: the name of the function that will handle the command execution. Whenever a this particular command is executed witht the adecuate number of parameters, the handler will be called, passing an array of parameters with the values used in the command execution.
+
+### Other functions
+
+#### prompt()
+Shows the prompt in the standard output. It should be used once the command has stopped sending information to the output. You should also remember to use the prompt after showing information asynchronously (like an asynchronous response from a server) to avoid the user entering information in a blank line.
+
+#### destroy()
+Closes the resources of the interpreter.
+
+#### notImplemented()
+Generic handler showing a "Not Implemented" message, available for developing new commands.
+
+#### setWriter()
+Changes the writer object of the interpreter (where the interpreter writes its information). Mostly for testing purposes. An example of use is available in the test files.
+
+## <a name="development"/> Development documentation
 ### Project build
 The project is managed using Grunt Task Runner.
 
