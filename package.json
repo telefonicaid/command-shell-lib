@@ -1,8 +1,8 @@
 {
-  "name": "command-node",
+  "name": "command-shell-lib",
   "description": "Library to create command line interpreters for testing programs",
   "version": "0.1.1-next",
-  "homepage": "https://github.com/telefonicaid/command-node",
+  "homepage": "https://github.com/telefonicaid/command-shell-lib",
   "keywords": [
     "command line",
     "interpreter",
@@ -14,12 +14,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "git://github.com/telefonicaid/command-node.git"
+    "url": "git://github.com/telefonicaid/command-shell-lib.git"
   },
   "bugs": {
-    "url": "https://github.com/telefonicaid/command-node/issues"
+    "url": "https://github.com/telefonicaid/command-shell-lib/issues"
   },
-  "main": "lib/command-node",
+  "main": "lib/command-shell-lib",
   "engines": {
     "node": ">=0.10.8"
   },
