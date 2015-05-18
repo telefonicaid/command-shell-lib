@@ -24,7 +24,7 @@
     "node": ">=0.10.8"
   },
   "scripts": {
-    "test": "grunt test"
+    "test": "grunt"
   },
   "dependencies": {},
   "devDependencies": {
