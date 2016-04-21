@@ -95,5 +95,50 @@ describe('Command-line tool', function() {
             done();
         });
     });
+    describe('When a stress batch is begun' , function() {
+        it('should show a message', function(done) {
+            writer.reset();
+            process.stdin.push('stressInit\n');
+            writer.get().should.match(/.*Stress batch recording.*/);
+            done();
+        });
+        it('all commands should give a "Command added to stress batch" result', function(done) {
+            process.stdin.push('stressInit\n');
+            writer.reset();
+            process.stdin.push('create thisIsTheUri\n');
+            writer.get().should.match(/.*Command added to stress batch.*/);
+            done();
+        });
+        it('should not call the handlers', function(done) {
+            var executed = false;
 
+            commands.create.handler = function() {
+                executed = true;
+            };
+
+            process.stdin.push('create thisIsTheUri thisIsTheValue\n');
+            executed.should.equal(false);
+            done();
+        });
+    });
+    describe('When a stress execute is issued, all commands should execute', function() {
+        it('should call all the handlers', function(done) {
+            var executions = 0;
+
+            commands.create.handler = function() {
+                executions++;
+            };
+
+            process.stdin.push('stressInit\n');
+            process.stdin.push('create thisIsTheUri thisIsTheValue\n');
+            process.stdin.push('create thisIsTheUri thisIsTheValue\n');
+            process.stdin.push('create thisIsTheUri thisIsTheValue\n');
+            process.stdin.push('stressCommit 50 2\n');
+
+            setTimeout(function() {
+                executions.should.equal(6);
+                done();
+            }, 800);
+        });
+    });
 });
