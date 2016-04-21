@@ -133,10 +133,30 @@ describe('Command-line tool', function() {
             process.stdin.push('create thisIsTheUri thisIsTheValue\n');
             process.stdin.push('create thisIsTheUri thisIsTheValue\n');
             process.stdin.push('create thisIsTheUri thisIsTheValue\n');
-            process.stdin.push('stressCommit 50 2\n');
+            process.stdin.push('stressCommit 50 1 2 10\n');
 
             setTimeout(function() {
                 executions.should.equal(6);
+                done();
+            }, 800);
+        });
+    });
+    describe('When there are multiple threads, all must contribute', function() {
+        it('should call all the handlers', function(done) {
+            var executions = 0;
+
+            commands.create.handler = function() {
+                executions++;
+            };
+
+            process.stdin.push('stressInit\n');
+            process.stdin.push('create thisIsTheUri thisIsTheValue\n');
+            process.stdin.push('create thisIsTheUri thisIsTheValue\n');
+            process.stdin.push('create thisIsTheUri thisIsTheValue\n');
+            process.stdin.push('stressCommit 50 2 2 10\n');
+
+            setTimeout(function() {
+                executions.should.equal(12);
                 done();
             }, 800);
         });
