@@ -1,7 +1,7 @@
 {
   "name": "command-shell-lib",
   "description": "Library to create command line interpreters for testing programs",
-  "version": "1.0.0",
+  "version": "1.0.0-next",
   "homepage": "https://github.com/telefonicaid/command-shell-lib",
   "keywords": [
     "command line",
