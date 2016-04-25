@@ -34,7 +34,8 @@ The library usage is based on the definition of a `commands` object, that is pas
         'create': {
             parameters: ['objectUri', 'objectValue'],
             description: '\tCreate a new object. The object is specified using the /type/id OMA notation.',
-            handler: function() {}
+            handler: function() {},
+            asynchronous: true
         }
     };
 ```
@@ -43,6 +44,8 @@ This definition includes:
 * **signature**: that is, the parameters the command will receive. In this current version, commands have to have a fixed number of parameters. This parameters will be checked upon command execution, and the command will fail if the number does not match the signature.
 * **description** of the command: that will be used to autogenerate the help message for each command.
 * **handler**: the name of the function that will handle the command execution. Whenever a this particular command is executed witht the adecuate number of parameters, the handler will be called, passing an array of parameters with the values used in the command execution.
+* **asynchronous**: indicates that the handler receives and honours a Node.js convention callback. This callback will
+only be used while in stress test mode; in other modes, an empty callback will be called instead.
 
 ### Other functions
 
