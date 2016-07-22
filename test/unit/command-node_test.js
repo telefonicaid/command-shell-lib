@@ -57,9 +57,11 @@ describe('Command-line tool', function() {
     var writer = new StringWriter();
 
     beforeEach(function() {
-        commandNode.initialize(commands, 'Test>', process.stdin, process.stdout);
+        commandNode.initialize(commands, 'Test>');
         commandNode.setWriter(writer);
-        commands.create.handler = function() {};
+        commands.create.handler = function(command) {
+            commandNode.getWriter().log('Creating %s with %s', command[0], command[1]);
+        };
     });
 
     afterEach(function() {
@@ -159,6 +161,26 @@ describe('Command-line tool', function() {
                 executions.should.equal(12);
                 done();
             }, 800);
+        });
+    });
+    describe('When two variables are set and the variable list is listed', function() {
+        it('should show both variables with their values', function(done) {
+            process.stdin.push('set testVar1 18\n');
+            process.stdin.push('set testVar2 6324\n');
+            writer.reset();
+            process.stdin.push('vars\n');
+            writer.get().should.match(/testVar1=18[.\s\S]*testVar2=6324/);
+            done();
+        });
+    });
+    describe('When a command is executed with a variable name "@testVar1"', function() {
+        it('should replace the variable names with their values', function(done) {
+            process.stdin.push('set testVar1 18\n');
+            process.stdin.push('set testVar2 6324\n');
+            writer.reset();
+            process.stdin.push('create @testVar1 @testVar2\n');
+            writer.get().should.match(/Creating.*18.*6324/);
+            done();
         });
     });
 });
